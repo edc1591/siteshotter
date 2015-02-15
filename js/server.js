@@ -26,12 +26,11 @@ service = server.listen(port, { keepAlive: true }, function (request, response) 
     return;
   }
   
-  console.log(request.url);
-  // if (request.url.slice(0, 10) !== '/image.png') {
-  //   response.statusCode = 404;
-  //   response.closeGracefully();
-  //   return;
-  // }
+  if (request.url.slice(0, '/image.png'.length) !== '/image.png') {
+    response.statusCode = 404;
+    response.closeGracefully();
+    return;
+  }
 
   var params = {};
   if (request.url.slice('/image.png'.length)[0] === "?") {
