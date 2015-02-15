@@ -106,7 +106,7 @@ func (s *renderServer) RenderPage(url string) ([]byte, error) {
 		s.mu.Unlock()
 	}()
 
-	resp, err := http.Get("http://127.0.0.1:" + s.port + "/" + url)
+	resp, err := http.Get("http://127.0.0.1:" + s.port + "/image.png?url=" + url)
 	if err != nil {
 		return nil, err
 	}
