@@ -51,7 +51,8 @@ func prepareForShutdownDown() {
 
 func PageRenderHandler(response http.ResponseWriter, request *http.Request) {
 	url := request.FormValue("url")
-	body, err := pool.RenderPage(url)
+	selector := request.FormValue("selector")
+	body, err := pool.RenderPage(url, selector)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte("500 Internal Server Error"))
