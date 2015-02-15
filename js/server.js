@@ -51,7 +51,7 @@ service = server.listen(port, { keepAlive: true }, function (request, response) 
     response.write(body);
     response.close();
   }, function (error) {
-    console.log('phantomjs: ['+port+'] error: ' + identifier + ' ' + error);
+    console.log('phantomjs: ['+port+'] error: ' + error);
     response.statusCode = 500;
     response.setHeader('Content-Length', error.length);
     response.write(error);
