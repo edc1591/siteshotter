@@ -26,15 +26,16 @@ service = server.listen(port, { keepAlive: true }, function (request, response) 
     return;
   }
   
-  if (request.url.slice(0, 10) !== '/clock.png') {
-    response.statusCode = 404;
-    response.closeGracefully();
-    return;
-  }
+  console.log(request.url);
+  // if (request.url.slice(0, 10) !== '/image.png') {
+  //   response.statusCode = 404;
+  //   response.closeGracefully();
+  //   return;
+  // }
 
-  var params = {"tzCode": "GMT"};
-  if (request.url.slice('/clock.png'.length)[0] === "?") {
-    query = request.url.slice('/clock.png?'.length);
+  var params = {};
+  if (request.url.slice('/image.png'.length)[0] === "?") {
+    query = request.url.slice('/image.png?'.length);
     query.split('&').forEach(function (pair) { 
       var p = pair.split('='); 
       params[p[0]] = p[1];
@@ -65,7 +66,7 @@ if (service) {
   phantom.exit();
 }
 
-function render(tzCode, success, failure) {
+function render(url, success, failure) {
   var page = webPage.create();
   page.zoomFactor = 1;
   page.settings.javascriptEnabled = true;
@@ -73,7 +74,7 @@ function render(tzCode, success, failure) {
     width: 1345,
     height: 710
   };
-  page.open(host + '/' + tzCode, function (status) {
+  page.open(decodeURI(url), function (status) {
     if (status !== 'success') {
       failure(status + ' unable to load the permalink');
       page.close();

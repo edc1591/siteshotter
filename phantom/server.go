@@ -16,7 +16,7 @@ import (
 type RenderServer interface {
 	Start() error
 	Shutdown() error
-	RenderClock(tzCode string) ([]byte, error)
+	RenderPage(url string) ([]byte, error)
 	CurrentLoad() int
 	AtCapacity() bool
 }
@@ -75,7 +75,7 @@ func (s *renderServer) waitForUp() {
 	for {
 		time.Sleep(200 * time.Millisecond)
 		if _, err := http.Get("http://127.0.0.1:" + s.port + "/ping"); err == nil {
-			log.Info("loudassclock/phantom", "Up", "address", "127.0.0.1:"+s.port)
+			log.Info("siteshotter/phantom", "Up", "address", "127.0.0.1:"+s.port)
 			return
 		}
 	}
@@ -85,15 +85,15 @@ func (s *renderServer) Shutdown() error {
 	if s.process == nil {
 		return nil
 	}
-	log.Info("loudassclock/phantom", "Shutting down...", "port", s.port)
+	log.Info("siteshotter/phantom", "Shutting down...", "port", s.port)
 	if err := s.process.Kill(); err != nil {
-		log.Error("loudassclock/phantom", "Failed to kill phantomjs process", "pid", s.process.Pid)
+		log.Error("siteshotter/phantom", "Failed to kill phantomjs process", "pid", s.process.Pid)
 		return err
 	}
 	return nil
 }
 
-func (s *renderServer) RenderClock(tzCode string) ([]byte, error) {
+func (s *renderServer) RenderPage(url string) ([]byte, error) {
 	if s.AtCapacity() {
 		return nil, errors.New("phantom: at capacity")
 	}
@@ -106,7 +106,7 @@ func (s *renderServer) RenderClock(tzCode string) ([]byte, error) {
 		s.mu.Unlock()
 	}()
 
-	resp, err := http.Get("http://127.0.0.1:" + s.port + "/clock.png?tzCode=" + tzCode)
+	resp, err := http.Get("http://127.0.0.1:" + s.port + "/" + url)
 	if err != nil {
 		return nil, err
 	}
