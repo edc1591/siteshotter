@@ -42,7 +42,7 @@ service = server.listen(port, { keepAlive: true }, function (request, response) 
     });
   }
 
-  render(params.tzCode, function (base64Image) {
+  render(params.url, function (base64Image) {
     var body = atob(base64Image);
     response.statusCode = 200;
     response.setHeader('Content-Length', body.length);
