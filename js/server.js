@@ -72,8 +72,8 @@ function render(url, selector, success, failure) {
 
   if (selector) {
     var clipRect = page.evaluate(function (selector) {
-      console.log("selector: " + s);
-      return document.querySelector(s).getBoundingClientRect();
+      console.log("selector: " + selector);
+      return document.querySelector(selector).getBoundingClientRect();
     }, { selector: selector });
     console.log('hi');
     console.log(JSON.stringify(clipRect));
