@@ -72,9 +72,9 @@ function render(url, selector, success, failure) {
 
   if (selector) {
     console.log(selector);
-    var clipRect = page.evaluate(function () {
-      return document.querySelector(selector).getBoundingClientRect();
-    });
+    var clipRect = page.evaluate(function (s) {
+      return document.querySelector(s).getBoundingClientRect();
+    }, selector);
     console.log('hi');
     console.log(clipRect);
     page.clipRect = {
