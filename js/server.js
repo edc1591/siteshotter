@@ -71,12 +71,12 @@ function render(url, selector, success, failure) {
   page.settings.javascriptEnabled = true;
 
   if (selector) {
-    var clipRect = page.evaluate(function (s) {
+    var clipRect = page.evaluate(function (selector) {
       console.log("selector: " + s);
       return document.querySelector(s).getBoundingClientRect();
-    }, selector);
+    }, { selector: selector });
     console.log('hi');
-    console.log(clipRect);
+    console.log(JSON.stringify(clipRect));
     page.clipRect = {
       top:    clipRect.top,
       left:   clipRect.left,
