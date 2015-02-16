@@ -70,8 +70,9 @@ function render(url, selector, success, failure) {
   page.zoomFactor = 1;
   page.settings.javascriptEnabled = true;
 
+  console.log(selector);
   if (selector) {
-    console.log(selector)
+    console.log(selector);
     var clipRect = page.evaluate(function (selector) {
       return document.querySelector(selector).getBoundingClientRect();
     }, { selector: selector });
