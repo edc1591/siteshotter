@@ -73,6 +73,8 @@ function render(url, selector, success, failure) {
   if (selector) {
     console.log(selector);
     var clipRect = document.querySelector(selector).getBoundingClientRect();
+    console.log('hi');
+    console.log(document.querySelector(selector));
     console.log(clipRect);
     page.clipRect = {
       top:    clipRect.top,
