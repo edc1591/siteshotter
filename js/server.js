@@ -73,6 +73,7 @@ function render(url, selector, success, failure) {
   if (selector) {
     console.log(selector);
     var clipRect = page.evaluate(function (s) {
+      console.log(s);
       return document.querySelector(s).getBoundingClientRect();
     }, selector);
     console.log('hi');
