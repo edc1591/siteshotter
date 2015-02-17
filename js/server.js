@@ -70,7 +70,9 @@ function render(url, success, failure) {
   page.zoomFactor = 1;
   page.settings.javascriptEnabled = true;
 
-  page.open(decodeURI(url), function (status) {
+  var decodedURL = decodeURI(url);
+  console.log("Fetching URL: " + decodedURL);
+  page.open(decodedURL, function (status) {
     if (status !== 'success') {
       failure(status + ' unable to load the page');
       page.close();
