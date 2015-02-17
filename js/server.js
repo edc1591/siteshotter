@@ -67,7 +67,7 @@ if (service) {
 
 function render(url, success, failure) {
   var page = webPage.create();
-  page.zoomFactor = 1;
+  page.zoomFactor = 2;
   page.settings.javascriptEnabled = true;
 
   var decodedURL = decodeURI(url);
