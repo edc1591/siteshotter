@@ -61,14 +61,14 @@ func (s *renderServerPool) Shutdown() error {
 	}
 }
 
-func (s *renderServerPool) RenderPage(url string, selector string) ([]byte, error) {
+func (s *renderServerPool) RenderPage(url string) ([]byte, error) {
 	var leastBusyServer RenderServer
 	for _, server := range s.servers {
 		if leastBusyServer == nil || leastBusyServer.CurrentLoad() > server.CurrentLoad() {
 			leastBusyServer = server
 		}
 	}
-	return leastBusyServer.RenderPage(url, selector)
+	return leastBusyServer.RenderPage(url)
 }
 
 func (s *renderServerPool) CurrentLoad() int {

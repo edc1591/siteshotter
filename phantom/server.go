@@ -16,7 +16,7 @@ import (
 type RenderServer interface {
 	Start() error
 	Shutdown() error
-	RenderPage(url string, selector string) ([]byte, error)
+	RenderPage(url string) ([]byte, error)
 	CurrentLoad() int
 	AtCapacity() bool
 }
@@ -93,7 +93,7 @@ func (s *renderServer) Shutdown() error {
 	return nil
 }
 
-func (s *renderServer) RenderPage(url string, selector string) ([]byte, error) {
+func (s *renderServer) RenderPage(url string) ([]byte, error) {
 	if s.AtCapacity() {
 		return nil, errors.New("phantom: at capacity")
 	}
@@ -106,7 +106,7 @@ func (s *renderServer) RenderPage(url string, selector string) ([]byte, error) {
 		s.mu.Unlock()
 	}()
 
-	resp, err := http.Get("http://127.0.0.1:" + s.port + "/image.png?url=" + url + "&selector=" + selector)
+	resp, err := http.Get("http://127.0.0.1:" + s.port + "/image.png?url=" + url)
 	if err != nil {
 		return nil, err
 	}

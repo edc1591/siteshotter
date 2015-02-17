@@ -41,7 +41,7 @@ service = server.listen(port, { keepAlive: true }, function (request, response) 
     });
   }
 
-  render(params.url, params.selector, function (base64Image) {
+  render(params.url, function (base64Image) {
     var body = atob(base64Image);
     response.statusCode = 200;
     response.setHeader('Content-Length', body.length);
@@ -65,28 +65,14 @@ if (service) {
   phantom.exit();
 }
 
-function render(url, selector, success, failure) {
+function render(url, success, failure) {
   var page = webPage.create();
   page.zoomFactor = 1;
   page.settings.javascriptEnabled = true;
 
-  if (selector) {
-    console.log(selector);
-    var clipRect = page.evaluate(function (selector) {
-      return document.querySelector(selector).getBoundingClientRect();
-    }, { selector: decodeURI(selector) });
-    console.log('hi');
-    console.log(JSON.stringify(clipRect));
-    page.clipRect = {
-      top:    clipRect.top,
-      left:   clipRect.left,
-      width:  clipRect.width,
-      height: clipRect.height
-    };
-  }
   page.open(decodeURI(url), function (status) {
     if (status !== 'success') {
-      failure(status + ' unable to load the permalink');
+      failure(status + ' unable to load the page');
       page.close();
       return;
     }
