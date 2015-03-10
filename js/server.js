@@ -67,10 +67,17 @@ if (service) {
 
 function render(url, success, failure) {
   var page = webPage.create();
-  page.zoomFactor = 2;
+  page.zoomFactor = 1;
   page.settings.javascriptEnabled = true;
+  page.onLoadFinished = function () {
+    var start = Date.now();
+    var base64 = page.renderBase64('PNG');
+    console.log('phantomjs: ['+port+'] render ' + ((Date.now() - start) / 1000) + 's');
+    page.close();
+    success(base64);
+  };
 
-  var decodedURL = decodeURI(url);
+  var decodedURL = decodeURIComponent(url);
   console.log("Fetching URL: " + decodedURL);
   page.open(decodedURL, function (status) {
     if (status !== 'success') {
@@ -78,10 +85,5 @@ function render(url, success, failure) {
       page.close();
       return;
     }
-    var start = Date.now();
-    var base64 = page.renderBase64('PNG');
-    console.log('phantomjs: ['+port+'] render ' + ((Date.now() - start) / 1000) + 's');
-    page.close();
-    success(base64);
   });
 }
